@@ -3,7 +3,7 @@ import torch
 from torchvision.models.detection import yolo
 
 # โหลดโมเดล YOLOv5
-model = torch.load('C:\\Disk_F\\FINAL PROJECT\\Project2\\push up\\weights\\best.pt')
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='best_pushup.pt',  device='0')
 
 # สร้างตัวตรวจจับวัตถุ
 detector = yolo.YOLOv5(model)

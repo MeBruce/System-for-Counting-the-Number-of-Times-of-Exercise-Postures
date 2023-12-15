@@ -14,14 +14,14 @@ class App:
         # setting title
         root.title("The System Helps Count the Number of Exercise Postures")
         # โหลดรูปภาพโลโก้ที่คุณต้องการใช้
-        logo_image = Image.open("image/orange1.png")
+        logo_image = Image.open("image/iconsitup.png")
         # ปรับขนาดรูปภาพโลโก้ให้เหมาะสมกับไอคอน
         # ปรับขนาดเป็น 32x32 พิกเซล (ขนาดที่แนะนำ)
         logo_image = logo_image.resize((32, 32))
         # บันทึกรูปภาพโลโก้เป็นไฟล์ .ico
-        logo_image.save("image/orange1.ico")
+        logo_image.save("image/iconsitup.ico")
         # กำหนดไฟล์ไอคอนให้กับหน้าต่าง
-        root.iconbitmap("image/orange1.ico")
+        root.iconbitmap("image/iconsitup.ico")
         # setting window size
         root.geometry("1400x900")
         # Setting background color
@@ -163,7 +163,7 @@ class App:
 
     def squat_button_command(self):
         # เรียกไฟล์ count_squat.py ด้วย subprocess
-        # subprocess.run(["python", "squat_situp.py"])
+        subprocess.run(["python", "squat_squat.py"])
         print("count_squat")
 
 
