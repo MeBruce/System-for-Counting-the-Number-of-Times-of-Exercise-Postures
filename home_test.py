@@ -25,23 +25,23 @@ class App:
         # setting window size
         root.geometry("1400x900")
         # Setting background color
-        root.configure(bg="#374259")
+        root.configure(bg="#76ABAE")
 
         # Creating the main frame
         main_frame = tk.Frame(root, width=1000, height=600,
                               borderwidth=2, relief="solid")
         main_frame.pack(side="top", pady=20)
-        main_frame.configure(bg="#212A3E")
+        main_frame.configure(bg="#DFF5FF")
 
         # Creating the frame container
         frame_container = tk.Frame(root)
         frame_container.pack(side="bottom", pady=10)
         # กำหนดสีพื้นหลังของ frame_container
-        frame_container.configure(bg="#374259")
+        frame_container.configure(bg="#76ABAE")
 
         # Creating frame1
         frame1 = tk.Frame(frame_container, width=400, height=300,
-                          borderwidth=2, relief="solid", bg="#212A3E")
+                          borderwidth=2, relief="solid", bg="#DFF5FF")
         frame1.pack(side="left", padx=20)
 
         reset = tk.Button(root)
@@ -80,9 +80,9 @@ class App:
     # ดาวน์โหลดภาพจากเครื่อง
         # โหลดภาพ
         imagesitup = Image.open(
-            "image/sit_up-removebg-preview.png")
+            "image/sit_up.png")
         # ปรับขนาดภาพให้เหมาะสมกับปุ่ม
-        imagesitup = imagesitup.resize((181, 104))
+        imagesitup = imagesitup.resize((150, 150))
         photositup = ImageTk.PhotoImage(imagesitup)
 
         situp_button = tk.Button(root, image=photositup)
@@ -101,9 +101,9 @@ class App:
         situp_button["command"] = self.situp_button_command
 
         imagepushup = Image.open(
-            "image/push_up-removebg-preview.png")
+            "image/push_up.png")
         # ปรับขนาดภาพให้เหมาะสมกับปุ่ม
-        imagepushup = imagepushup.resize((191, 107))
+        imagepushup = imagepushup.resize((190, 190))
         photopushup = ImageTk.PhotoImage(imagepushup)
 
         pushup_button = tk.Button(root, image=photopushup)
@@ -122,9 +122,9 @@ class App:
         pushup_button["command"] = self.pushup_button_command
 
         imagesquat = Image.open(
-            "image/squat-removebg-preview.png")
+            "image/squat.png")
         # ปรับขนาดภาพให้เหมาะสมกับปุ่ม
-        imagesquat = imagesquat.resize((83, 108))
+        imagesquat = imagesquat.resize((110, 110))
         photosquat = ImageTk.PhotoImage(imagesquat)
 
         squat_button = tk.Button(root, image=photosquat)

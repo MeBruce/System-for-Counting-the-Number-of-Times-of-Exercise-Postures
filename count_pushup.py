@@ -4,7 +4,7 @@ from PIL import Image
 import pandas as pd
 
 # Model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='best_pushup.pt',  device='cpu')  # Use GPU=0
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='model/best_pushup.pt',  device='cpu')  # Use GPU=0
 model.conf = 0.8
 # Initialize the camera (adjust the camera index as needed)
 camera = cv2.VideoCapture(0)  # 0 for default camera
@@ -47,7 +47,7 @@ while True:
     annotated_frame = results.render()[0]
     
     # Display the annotated frame
-    cv2.imshow('YOLOv5 Real-Time Object Detection', annotated_frame)
+    cv2.imshow('count pushup', annotated_frame)
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

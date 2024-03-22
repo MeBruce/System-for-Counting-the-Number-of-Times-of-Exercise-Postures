@@ -4,10 +4,8 @@ from PIL import Image
 import pandas as pd
 
 # Model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='best_pushup.pt', device='cuda', force_reload=True)
-
-
-
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='best_pushup.pt', device='cpu', force_reload=True)
+model.conf = 0.7
 # Initialize the camera (adjust the camera index as needed)
 camera = cv2.VideoCapture(0)  # 0 for default camera
 
