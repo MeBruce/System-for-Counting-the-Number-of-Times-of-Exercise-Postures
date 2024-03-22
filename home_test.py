@@ -1,4 +1,5 @@
 import tkinter as tk
+import cv2
 import requests
 import tkinter.font as tkFont
 from PIL import Image, ImageTk
@@ -23,7 +24,7 @@ class App:
         # กำหนดไฟล์ไอคอนให้กับหน้าต่าง
         root.iconbitmap("image/iconsitup.ico")
         # setting window size
-        root.geometry("1400x900")
+        root.geometry("1100x650")
         # Setting background color
         root.configure(bg="#76ABAE")
 
@@ -39,43 +40,6 @@ class App:
         # กำหนดสีพื้นหลังของ frame_container
         frame_container.configure(bg="#76ABAE")
 
-        # Creating frame1
-        frame1 = tk.Frame(frame_container, width=400, height=300,
-                          borderwidth=2, relief="solid", bg="#DFF5FF")
-        frame1.pack(side="left", padx=20)
-
-        reset = tk.Button(root)
-        reset["bg"] = "#f0f0f0"
-        ft = tkFont.Font(family='Times', size=10)
-        reset["font"] = ft
-        reset["fg"] = "#000000"
-        reset["justify"] = "center"
-        reset["text"] = "reset"
-        reset.place(in_=main_frame, x=144, y=3,
-                          anchor='nw', width=70, height=25)
-        reset["command"] = self.reset_command
-
-        left = tk.Button(root)
-        left["bg"] = "#f0f0f0"
-        ft = tkFont.Font(family='Times', size=10)
-        left["font"] = ft
-        left["fg"] = "#000000"
-        left["justify"] = "center"
-        left["text"] = "<"
-        left.place(in_=main_frame, x=37, y=3,
-                          anchor='n', width=70, height=25)
-        left["command"] = self.left_command
-
-        right1 = tk.Button(root)
-        right1["bg"] = "#f0f0f0"
-        ft = tkFont.Font(family='Times', size=10)
-        right1["font"] = ft
-        right1["fg"] = "#000000"
-        right1["justify"] = "center"
-        right1["text"] = ">"
-        right1.place(in_=main_frame, x=108, y=3,
-                          anchor='n', width=70, height=25)
-        right1["command"] = self.right1_command
 
     # ดาวน์โหลดภาพจากเครื่อง
         # โหลดภาพ
@@ -142,14 +106,6 @@ class App:
                           anchor='n', width=190, height=110)
         squat_button["command"] = self.squat_button_command
 
-    def reset_command(self):
-        print("reset")
-
-    def left_command(self):
-        print("left")
-
-    def right1_command(self):
-        print("right1")
 
     def situp_button_command(self):
         # เรียกไฟล์ count_situp.py ด้วย subprocess
