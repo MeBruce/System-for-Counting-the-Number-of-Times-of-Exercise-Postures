@@ -4,9 +4,8 @@ from PIL import Image
 import pandas as pd
 
 # Model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='best_pushup.pt',  device='0')  # Use GPU=0
-
-
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='best_pushup.pt',  device='cpu')  # Use GPU=0
+model.conf = 0.8
 # Initialize the camera (adjust the camera index as needed)
 camera = cv2.VideoCapture(0)  # 0 for default camera
 
@@ -20,11 +19,10 @@ while True:
     ret, frame = camera.read()
     
     # Convert the frame from BGR to RGB
-    # im = frame[..., ::-1]
-    im = frame
+    im = frame[..., ::-1]  # Convert BGR to RGB
     
     # Inference
-    results = model(im, size=640)
+    results = model(im, size=640)  # ปรับ confidence threshold เป็น 0.5 (ค่าเริ่มต้น)
     
     # Get the object predictions
     predictions = results.pandas().xyxy[0]
@@ -34,10 +32,10 @@ while True:
         object_name = row['name']
         
         # Check if the object has changed from "sit down" to "sit up"
-        if previous_object_name == "sit down" and object_name == "sit up":
+        if previous_object_name == "pushdown" and object_name == "pushup":
             sit_down_detected = False
             count += 1
-        elif previous_object_name == "sit up" and object_name == "sit down":
+        elif previous_object_name == "pushup" and object_name == "pushdown":
             sit_down_detected = True
         
         previous_object_name = object_name
