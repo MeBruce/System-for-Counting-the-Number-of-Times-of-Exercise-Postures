@@ -4,8 +4,7 @@ from PIL import Image
 import pandas as pd
 
 # Model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='best_pushup.pt', device='cuda', force_reload=True)
-
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='best_squat.pt',  device='0')  # Use GPU=0
 
 
 # Initialize the camera (adjust the camera index as needed)
