@@ -3,11 +3,10 @@ import requests
 import tkinter.font as tkFont
 from PIL import Image, ImageTk
 from io import BytesIO
-#from ttkthemes import ThemedTk
 from tkinter import Tk, Frame
 import torch
 from torchvision.models import detection
-import subprocess  # เพิ่ม subproces
+import subprocess
 
 class App:
     def __init__(self, root):
