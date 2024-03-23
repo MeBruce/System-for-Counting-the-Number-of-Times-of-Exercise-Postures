@@ -1,4 +1,5 @@
 import tkinter as tk
+import cv2
 import requests
 import tkinter.font as tkFont
 from PIL import Image, ImageTk
@@ -22,7 +23,7 @@ class App:
         # กำหนดไฟล์ไอคอนให้กับหน้าต่าง
         root.iconbitmap("image/iconsitup.ico")
         # setting window size
-        root.geometry("1400x900")
+        root.geometry("1100x650")
         # Setting background color
         root.configure(bg="#76ABAE")
 
@@ -38,43 +39,6 @@ class App:
         # กำหนดสีพื้นหลังของ frame_container
         frame_container.configure(bg="#76ABAE")
 
-        # Creating frame1
-        frame1 = tk.Frame(frame_container, width=400, height=300,
-                          borderwidth=2, relief="solid", bg="#DFF5FF")
-        frame1.pack(side="left", padx=20)
-
-        reset = tk.Button(root)
-        reset["bg"] = "#f0f0f0"
-        ft = tkFont.Font(family='Times', size=10)
-        reset["font"] = ft
-        reset["fg"] = "#000000"
-        reset["justify"] = "center"
-        reset["text"] = "reset"
-        reset.place(in_=main_frame, x=144, y=3,
-                          anchor='nw', width=70, height=25)
-        reset["command"] = self.reset_command
-
-        left = tk.Button(root)
-        left["bg"] = "#f0f0f0"
-        ft = tkFont.Font(family='Times', size=10)
-        left["font"] = ft
-        left["fg"] = "#000000"
-        left["justify"] = "center"
-        left["text"] = "<"
-        left.place(in_=main_frame, x=37, y=3,
-                          anchor='n', width=70, height=25)
-        left["command"] = self.left_command
-
-        right1 = tk.Button(root)
-        right1["bg"] = "#f0f0f0"
-        ft = tkFont.Font(family='Times', size=10)
-        right1["font"] = ft
-        right1["fg"] = "#000000"
-        right1["justify"] = "center"
-        right1["text"] = ">"
-        right1.place(in_=main_frame, x=108, y=3,
-                          anchor='n', width=70, height=25)
-        right1["command"] = self.right1_command
 
     # ดาวน์โหลดภาพจากเครื่อง
         # โหลดภาพ
@@ -85,8 +49,8 @@ class App:
         photositup = ImageTk.PhotoImage(imagesitup)
 
         situp_button = tk.Button(root, image=photositup)
-        situp_button_text = tk.Label(root, text="คลิกเพื่อทำการ Sit Up")
-        situp_button_text.place(in_=main_frame, x=95, y=220)
+        situp_button_text = tk.Label(root, text="คลิกเพื่อทำการ Sit Up",font=("Helvetica", 20))
+        situp_button_text.place(in_=main_frame, x=50, y=450)
         situp_button["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times', size=15)
         situp_button["font"] = ft
@@ -95,8 +59,8 @@ class App:
         # situp_button["text"] = "sit up" #text ภายใน button
         situp_button.imagesitup = photositup  # เก็บ reference ของภาพ
         # situp_button.place(x=350,y=120,width=190,height=110)
-        situp_button.place(in_=main_frame, x=150, y=95,
-                          anchor='n', width=190, height=110)
+        situp_button.place(in_=main_frame, x=170, y=150,
+                          anchor='n', width=310, height=250)
         situp_button["command"] = self.situp_button_command
 
         imagepushup = Image.open(
@@ -106,8 +70,8 @@ class App:
         photopushup = ImageTk.PhotoImage(imagepushup)
 
         pushup_button = tk.Button(root, image=photopushup)
-        pushup_button_text = tk.Label(root, text="คลิกเพื่อทำการ Push Up")
-        pushup_button_text.place(in_=main_frame, x=310, y=220)
+        pushup_button_text = tk.Label(root, text="คลิกเพื่อทำการ Push Up",font=("Helvetica", 20))
+        pushup_button_text.place(in_=main_frame, x=360, y=450)
         pushup_button["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times', size=15)
         pushup_button["font"] = ft
@@ -116,8 +80,8 @@ class App:
         # pushup_button["text"] = "push up" #text ภายใน button
         pushup_button.imagepushup = photopushup  # เก็บ reference ของภาพ
         # pushup_button.place(x=580,y=120,width=190,height=110)
-        pushup_button.place(in_=main_frame, x=370, y=95,
-                          anchor='n', width=190, height=110)
+        pushup_button.place(in_=main_frame, x=500,y=150,
+                          anchor='n', width=310, height=250)
         pushup_button["command"] = self.pushup_button_command
 
         imagesquat = Image.open(
@@ -127,8 +91,8 @@ class App:
         photosquat = ImageTk.PhotoImage(imagesquat)
 
         squat_button = tk.Button(root, image=photosquat)
-        squat_button_text = tk.Label(root, text="คลิกเพื่อทำการ Squat")
-        squat_button_text.place(in_=main_frame, x=535, y=220)
+        squat_button_text = tk.Label(root, text="คลิกเพื่อทำการ Squat",font=("Helvetica", 20))
+        squat_button_text.place(in_=main_frame, x=700, y=450)
         squat_button["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times', size=15)
         squat_button["font"] = ft
@@ -137,18 +101,10 @@ class App:
         # squat_button["text"] = "squat" #text ภายใน button
         squat_button.imagesquat = photosquat  # เก็บ reference ของภาพ
         # squat_button.place(x=810,y=120,width=190,height=110)
-        squat_button.place(in_=main_frame, x=590, y=95,
-                          anchor='n', width=190, height=110)
+        squat_button.place(in_=main_frame, x=830, y=150,
+                          anchor='n', width=310, height=250)
         squat_button["command"] = self.squat_button_command
 
-    def reset_command(self):
-        print("reset")
-
-    def left_command(self):
-        print("left")
-
-    def right1_command(self):
-        print("right1")
 
     def situp_button_command(self):
         # เรียกไฟล์ count_situp.py ด้วย subprocess
@@ -162,7 +118,7 @@ class App:
 
     def squat_button_command(self):
         # เรียกไฟล์ count_squat.py ด้วย subprocess
-        subprocess.run(["python", "squat_squat.py"])
+        subprocess.run(["python", "count_squat.py"])
         print("count_squat")
 
 
