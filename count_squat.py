@@ -64,7 +64,7 @@ import torch
 import pandas as pd
 
 # Use GPU device='0' or force_reload=True Use CPU device='cpu'
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='model/best_pushup.pt',  force_reload=True) 
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='model/best_squat.pt',  force_reload=True) 
 model.conf = 0.7
 camera = cv2.VideoCapture(0)  # 0 for default camera
 
@@ -100,10 +100,10 @@ def update_frame():
     for index, row in predictions.iterrows():
         object_name = row['name']
         
-        if previous_object_name == "squatdown" and object_name == "squatup":
+        if previous_object_name == "squat down" and object_name == "squat up":
             sit_down_detected = False
             count += 1
-        elif previous_object_name == "squatup" and object_name == "squatdown":
+        elif previous_object_name == "squat up" and object_name == "squat down":
             sit_down_detected = True
         
         previous_object_name = object_name
