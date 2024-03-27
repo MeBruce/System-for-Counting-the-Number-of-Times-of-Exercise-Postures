@@ -1,4 +1,4 @@
-step to use project
+Step to use project
 
   1.pip install -r requirement.txt
 
