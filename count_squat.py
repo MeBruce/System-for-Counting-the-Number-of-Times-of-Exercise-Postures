@@ -5,7 +5,7 @@ import torch
 import pandas as pd
 
 # Use GPU device='0' or force_reload=True Use CPU device='cpu'
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='model/best_squat.pt',  force_reload=True) 
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='model/best_squat.pt',  force_reload=True, device='0') 
 model.conf = 0.7
 camera = cv2.VideoCapture(0)  # 0 for default camera
 
