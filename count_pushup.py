@@ -2,12 +2,11 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import cv2
 import torch
-import pandas as pd
 
 # Use GPU device='0' or force_reload=True Use CPU device='cpu'
 model = torch.hub.load('ultralytics/yolov5', 'custom', path='model/best_pushup.pt',  force_reload=True, device='0') 
 model.conf = 0.7
-camera = cv2.VideoCapture(0)  # 0 for default camera
+camera = cv2.VideoCapture(0) 
 
 previous_object_name = None
 count = 0
@@ -29,14 +28,11 @@ def plot_counter(annotated_frame, count):
 def update_frame():
     ret, frame = camera.read()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
-    
-    im = Image.fromarray(frame)
 
     results = model(frame, size=640)
     
     predictions = results.pandas().xyxy[0]
     
-    # Loop through the predictions and count object occurrences
     global previous_object_name, count, sit_down_detected
     for index, row in predictions.iterrows():
         object_name = row['name']
@@ -51,8 +47,6 @@ def update_frame():
         
 
     annotated_frame = results.render()[0]
-    
-    frame_with_text = plot_counter(annotated_frame, count)
     
     img = ImageTk.PhotoImage(image=Image.fromarray(annotated_frame))
     panel.img = img  
