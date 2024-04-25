@@ -8,5 +8,7 @@ For CUDA
 
   3.Donwload Model weight จาก link:https://atrmutrac-my.sharepoint.com/:f:/g/personal/1631010541133_outlook_rmutr_ac_th/Eh57BzwBmqZCt9riHW6n8icB897wrbeoGVheEAf3nv2cOQ?e=SJb4EW 
   แล้วนำไปใส่ใน folder model
-
-  3.run home.py
+  
+  4.run test_use_cuda.py เพื่อ check ว่า device ของคุณลองรับ CUDA หรือยัง
+  
+  5.run home.py
