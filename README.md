@@ -1,4 +1,6 @@
 # The System Helps Count the Number of Exercise Postures
+![Screenshot 2024-04-25 155004](https://github.com/MeBruce/The-System-Helps-Count-the-Number-of-Exercise-Postures/assets/86824250/3e9df8c4-1a9a-4a7d-bfb2-557a01386e0b)
+
 # Step to use project
 
   1.pip install -r requirement.txt
