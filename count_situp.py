@@ -12,19 +12,6 @@ previous_object_name = None
 count = 0
 sit_down_detected = False
 
-def plot_counter(annotated_frame, count):
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    org = (50, 50)
-    fontScale = 1
-    color = (0, 255, 0) 
-    thickness = 2
-
-    frame_with_text = annotated_frame.copy()
-    
-    cv2.putText(frame_with_text, f'Count: {count}', org, font, fontScale, color, thickness)
-    
-    return frame_with_text
-
 def update_frame():
     ret, frame = camera.read()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
