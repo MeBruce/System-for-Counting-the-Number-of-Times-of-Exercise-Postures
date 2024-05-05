@@ -31,6 +31,10 @@ def update_frame():
             sit_down_detected = True
         
         previous_object_name = object_name
+    
+     # เพิ่มเงื่อนไขเช็ค count เพื่อ reset
+    if count > 99:
+        reset_count()
 
     annotated_frame = results.render()[0]
     
