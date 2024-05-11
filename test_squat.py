@@ -10,7 +10,7 @@ camera = cv2.VideoCapture(0)
 
 previous_object_name = None
 count = 0
-sit_down_detected = False
+counting = False
 
 def update_frame():
     ret, frame = camera.read()
@@ -34,18 +34,52 @@ def update_frame():
     
     predictions = results.pandas().xyxy[0]
 
-    global previous_object_name, count
+
+    global count,counting
 
     for index, row in predictions.iterrows():
         object_name = row['name']
         class_squat = row['class']
         print(class_squat, object_name)
-
-        if previous_object_name == "squat down" and object_name == "squat up":
+        
+        if object_name == "squat down":
+            counting = False
+        elif object_name == "squat up" and counting:
             count += 1
-                
-        previous_object_name = object_name
+        elif object_name == "squat up":
+            counting = True
 
+
+    # global count,counting
+
+    # for index, row in predictions.iterrows():
+    #     object_name = row['name']
+    #     class_squat = row['class']
+    #     print(class_squat, object_name)
+        
+    #     if object_name == "squat down":
+    #         counting = True
+    #     elif object_name == "squat up" and counting:
+    #         count += 1
+    #         counting = False
+
+
+
+    # global previous_object_name, count
+
+    # for index, row in predictions.iterrows():
+    #     object_name = row['name']
+    #     class_squat = row['class']
+    #     print(class_squat, object_name)
+
+    #     if previous_object_name == "squat down" and object_name == "squat up":
+    #         count += 1
+                
+    #     previous_object_name = object_name
+        
+
+
+    # เมื่อพบว่าค่าการนับเกิน 99 ให้รีเซ็ตค่าการนับ
     if count > 99:
         reset_count()
 
@@ -93,4 +127,3 @@ update_frame()
 root.mainloop()
 
 camera.release()
-
