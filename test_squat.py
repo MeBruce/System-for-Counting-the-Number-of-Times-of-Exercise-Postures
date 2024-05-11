@@ -34,19 +34,18 @@ def update_frame():
     
     predictions = results.pandas().xyxy[0]
 
-
-    global count,counting
+    global count, counting
 
     for index, row in predictions.iterrows():
-        object_name = row['name']
+        object_name = row['name'].strip()
         class_squat = row['class']
         print(class_squat, object_name)
         
-        if object_name == "squat down":
-            counting = False
-        elif object_name == "squat up" and counting:
-            count += 1
-        elif object_name == "squat up":
+        if counting:
+            if object_name == 'squat up':
+                count += 1
+                counting = False
+        elif object_name == 'squat down':
             counting = True
 
 
