@@ -10,7 +10,6 @@ camera = cv2.VideoCapture(0)
 
 previous_object_name = None
 count = 0
-counting = False
 
 def update_frame():
     ret, frame = camera.read()
@@ -19,10 +18,10 @@ def update_frame():
         print("Error: Couldn't read frame from camera")
         return
     
-    rectangle_x = 100  
+    rectangle_x = 230  
     rectangle_y = 10  
     rectangle_width = 200 
-    rectangle_height = 450  
+    rectangle_height = 450 
     
     cv2.rectangle(frame, (rectangle_x, rectangle_y), (rectangle_x + rectangle_width, rectangle_y + rectangle_height), (0, 255, 0), 2)
     
@@ -34,53 +33,35 @@ def update_frame():
     
     predictions = results.pandas().xyxy[0]
 
-    global count, counting
-
+    
+    global count, previous_object_name
+    # if previous_object_name == "squat up" and object_name == "squat up":
     for index, row in predictions.iterrows():
         object_name = row['name'].strip()
-        class_squat = row['class']
-        print(class_squat, object_name)
-        
-        if counting:
-            if object_name == 'squat up':
-                count += 1
-                counting = False
-        elif object_name == 'squat down':
-            counting = True
+        print(previous_object_name, object_name)
+                
+        if previous_object_name == "squat down" and object_name == "squat up":
+            count += 1
 
+        previous_object_name = object_name
+    
 
-    # global count,counting
 
     # for index, row in predictions.iterrows():
-    #     object_name = row['name']
-    #     class_squat = row['class']
-    #     print(class_squat, object_name)
-        
-    #     if object_name == "squat down":
-    #         counting = True
-    #     elif object_name == "squat up" and counting:
-    #         count += 1
-    #         counting = False
-
-
-
-    # global previous_object_name, count
-
-    # for index, row in predictions.iterrows():
-    #     object_name = row['name']
-    #     class_squat = row['class']
-    #     print(class_squat, object_name)
+    #     object_name = row['name'].strip()
 
     #     if previous_object_name == "squat down" and object_name == "squat up":
     #         count += 1
-                
+
     #     previous_object_name = object_name
-        
+
+    # print("จำนวนลำดับ 'squat up, squat down, squat up' ที่พบ:", count)
 
 
-    # เมื่อพบว่าค่าการนับเกิน 99 ให้รีเซ็ตค่าการนับ
+     # เมื่อพบว่าค่าการนับเกิน 99 ให้รีเซ็ตค่าการนับ
     if count > 99:
-        reset_count()
+            reset_count()
+
 
     for index, row in predictions.iterrows():
         object_name = row['name']
@@ -119,7 +100,6 @@ count_label.pack(padx=10, pady=10, anchor="w")
 
 reset_button = tk.Button(root, text="Reset",font=("Helvetica", 30), command=reset_count)
 reset_button.place(x=450, y=505, width=185, height=60)
-
 
 update_frame()
 

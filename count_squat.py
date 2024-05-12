@@ -10,7 +10,7 @@ camera = cv2.VideoCapture(0)
 
 previous_object_name = None
 count = 0
-sit_down_detected = False
+counting = False
 
 def update_frame():
     ret, frame = camera.read()
@@ -19,7 +19,7 @@ def update_frame():
         print("Error: Couldn't read frame from camera")
         return
     
-    rectangle_x = 100  
+    rectangle_x = 230  
     rectangle_y = 10  
     rectangle_width = 200 
     rectangle_height = 450  
@@ -40,7 +40,7 @@ def update_frame():
         object_name = row['name']
         class_squat = row['class']
         print(class_squat, object_name)
-
+         
         if previous_object_name == "squat down" and object_name == "squat up":
             count += 1
                 
