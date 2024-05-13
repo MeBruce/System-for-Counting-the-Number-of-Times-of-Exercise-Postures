@@ -11,18 +11,26 @@ camera = cv2.VideoCapture(0)
 previous_object_name = None
 count = 0
 predictions = None 
-
+test = 0
+count_01 = 0
 
 def count_exercise(predictions):
-    global count, previous_object_name
+    global count, previous_object_name,start_object_name,test
     for index, row in predictions.iterrows():
         object_name = row['name'].strip()
-        print(previous_object_name, object_name)
+        start_object_name = object_name
+        print(start_object_name,previous_object_name, object_name)
         
-        if previous_object_name == "squat down" and object_name == "squat up":
-            count += 1
-                
-        previous_object_name = object_name
+        count_01 = len(predictions)
+        print(count_01)
+        if count_01 == 1: 
+            if start_object_name == "squat up":
+                test +=1
+                print(test)
+            if test != 0 :
+                if previous_object_name == "squat down" and object_name == "squat up":
+                    count += 1
+                previous_object_name = object_name
 
 
 def update_frame():
@@ -48,20 +56,6 @@ def update_frame():
     predictions = results.pandas().xyxy[0]
 
     count_exercise(predictions) 
-
-    
-    # global count, previous_object_name
-    # if previous_object_name == "squat up" and object_name == "squat up":
-    #     print(previous_object_name, object_name)
-    #     for index, row in predictions.iterrows():
-    #         object_name = row['name'].strip()
-    #         # print(previous_object_name, object_name)
-                    
-    #         if previous_object_name == "squat down" and object_name == "squat up":
-    #             count += 1
-
-    #         previous_object_name = object_name
-    
 
      # เมื่อพบว่าค่าการนับเกิน 99 ให้รีเซ็ตค่าการนับ
     if count > 99:

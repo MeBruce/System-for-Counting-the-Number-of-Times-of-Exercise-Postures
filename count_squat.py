@@ -10,7 +10,27 @@ camera = cv2.VideoCapture(0)
 
 previous_object_name = None
 count = 0
-counting = False
+predictions = None 
+test = 0
+count_01 = 0
+
+def count_exercise(predictions):
+    global count, previous_object_name,start_object_name,test
+    for index, row in predictions.iterrows():
+        object_name = row['name'].strip()
+        start_object_name = object_name
+        print(start_object_name,previous_object_name, object_name)
+        
+        count_01 = len(predictions)
+        print(count_01)
+        if count_01 == 1: 
+            if start_object_name == "squat up":
+                test +=1
+                print(test)
+            if test != 0 :
+                if previous_object_name == "squat down" and object_name == "squat up":
+                    count += 1
+                previous_object_name = object_name
 
 def update_frame():
     ret, frame = camera.read()
@@ -36,15 +56,7 @@ def update_frame():
 
     global previous_object_name, count
 
-    for index, row in predictions.iterrows():
-        object_name = row['name']
-        class_squat = row['class']
-        print(class_squat, object_name)
-         
-        if previous_object_name == "squat down" and object_name == "squat up":
-            count += 1
-                
-        previous_object_name = object_name
+    count_exercise(predictions)
 
     if count > 99:
         reset_count()
