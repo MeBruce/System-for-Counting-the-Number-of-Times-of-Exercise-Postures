@@ -40,7 +40,7 @@ def update_frame():
         return
     
     rectangle_x = 50  
-    rectangle_y = 200  
+    rectangle_y = 270  
     rectangle_width = 550
     rectangle_height = 200
     
@@ -88,7 +88,7 @@ def reset_count():
     
 
 root = tk.Tk()
-root.title("Count Squat")
+root.title("Count pushup")
 
 panel = tk.Label(root)
 panel.pack(padx=10, pady=10)
