@@ -4,8 +4,8 @@ import cv2
 import torch
 
 # Use GPU device='0' or force_reload=True Use CPU device='cpu'
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='model/best_pushup.pt',  force_reload=True, device='0') 
-model.conf = 0.7
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='model/best_squat.pt',  force_reload=True, device='0') 
+model.conf = 0.8
 camera = cv2.VideoCapture(0) 
 
 previous_object_name = None
@@ -24,13 +24,14 @@ def count_exercise(predictions):
         count_01 = len(predictions)
         print(count_01)
         if count_01 == 1: 
-            if start_object_name == "pushup":
+            if start_object_name == "squat up":
                 test +=1
                 print(test)
             if test != 0 :
-                if previous_object_name == "pushdown" and object_name == "pushup":
+                if previous_object_name == "squat down" and object_name == "squat up":
                     count += 1
                 previous_object_name = object_name
+
 
 def update_frame():
     ret, frame = camera.read()
@@ -39,10 +40,10 @@ def update_frame():
         print("Error: Couldn't read frame from camera")
         return
     
-    rectangle_x = 50  
-    rectangle_y = 270  
-    rectangle_width = 550
-    rectangle_height = 200
+    rectangle_x = 230  
+    rectangle_y = 10  
+    rectangle_width = 200 
+    rectangle_height = 450 
     
     cv2.rectangle(frame, (rectangle_x, rectangle_y), (rectangle_x + rectangle_width, rectangle_y + rectangle_height), (0, 255, 0), 2)
     
@@ -54,12 +55,12 @@ def update_frame():
     
     predictions = results.pandas().xyxy[0]
 
-    global previous_object_name, count
-
     count_exercise(predictions) 
 
+     # เมื่อพบว่าค่าการนับเกิน 99 ให้รีเซ็ตค่าการนับ
     if count > 99:
-        reset_count()
+            reset_count()
+
 
     for index, row in predictions.iterrows():
         object_name = row['name']
@@ -88,7 +89,7 @@ def reset_count():
     
 
 root = tk.Tk()
-root.title("Count pushup")
+root.title("Count Squat")
 
 panel = tk.Label(root)
 panel.pack(padx=10, pady=10)
@@ -99,10 +100,8 @@ count_label.pack(padx=10, pady=10, anchor="w")
 reset_button = tk.Button(root, text="Reset",font=("Helvetica", 30), command=reset_count)
 reset_button.place(x=450, y=505, width=185, height=60)
 
-
 update_frame()
 
 root.mainloop()
 
 camera.release()
-

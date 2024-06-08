@@ -10,50 +10,85 @@ camera = cv2.VideoCapture(0)
 
 previous_object_name = None
 count = 0
-sit_down_detected = False
+predictions = None 
+test = 0
+count_01 = 0
+
+def count_exercise(predictions):
+    global count, previous_object_name,start_object_name,test
+    for index, row in predictions.iterrows():
+        object_name = row['name'].strip()
+        start_object_name = object_name
+        print(start_object_name,previous_object_name, object_name)
+        
+        count_01 = len(predictions)
+        print(count_01)
+        if count_01 == 1: 
+            if start_object_name == "sit up":
+                test +=1
+                print(test)
+            if test != 0 :
+                if previous_object_name == "sit down" and object_name == "sit up":
+                    count += 1
+                previous_object_name = object_name
 
 def update_frame():
     ret, frame = camera.read()
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
 
-    results = model(frame, size=640)
+    if frame is None:  
+        print("Error: Couldn't read frame from camera")
+        return
+    
+    rectangle_x = 100  
+    rectangle_y = 180  
+    rectangle_width = 450 
+    rectangle_height = 300  
+    
+    cv2.rectangle(frame, (rectangle_x, rectangle_y), (rectangle_x + rectangle_width, rectangle_y + rectangle_height), (0, 255, 0), 2)
+    
+    frame_cropped = frame[rectangle_y:rectangle_y + rectangle_height, rectangle_x:rectangle_x + rectangle_width]
+    
+    frame_cropped = cv2.cvtColor(frame_cropped, cv2.COLOR_BGR2RGB) 
+
+    results = model(frame_cropped, size=640)
     
     predictions = results.pandas().xyxy[0]
 
-    global previous_object_name, count, sit_down_detected
-    for index, row in predictions.iterrows():
-        object_name = row['name']
-        
-        if previous_object_name == "sit down" and object_name == "sit up":
-            sit_down_detected = False
-            count += 1
-        elif previous_object_name == "sit up" and object_name == "sit down":
-            sit_down_detected = True
-        
-        previous_object_name = object_name
-    
-     # เพิ่มเงื่อนไขเช็ค count เพื่อ reset
+    global previous_object_name, count
+
+    count_exercise(predictions)
+
     if count > 99:
         reset_count()
 
-    annotated_frame = results.render()[0]
-    
-    img = ImageTk.PhotoImage(image=Image.fromarray(annotated_frame))
+    for index, row in predictions.iterrows():
+        object_name = row['name']
+        
+        row['xmin'] += rectangle_x
+        row['xmax'] += rectangle_x
+        row['ymin'] += rectangle_y
+        row['ymax'] += rectangle_y
+        
+        cv2.rectangle(frame, (int(row['xmin']), int(row['ymin'])), (int(row['xmax']), int(row['ymax'])), (255, 0, 0), 2)
+        cv2.putText(frame, f"{row['name']}", (int(row['xmin']), int(row['ymin']) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+        
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
+
+    img = ImageTk.PhotoImage(image=Image.fromarray(frame))
     panel.img = img  
-    
     panel.config(image=img)
-    
-    count_label.config(text=f'Count: {count}')
-    
+    count_label.config(text=f'Count: {count}')  # แสดงจำนวนที่นับได้บน GUI
     panel.after(10, update_frame)
+
 
 def reset_count():
     global count
     count = 0
     count_label.config(text=f'Count: {count}')
+    
 
 root = tk.Tk()
-root.title("Count Sit-Up")
+root.title("Count Situp")
 
 panel = tk.Label(root)
 panel.pack(padx=10, pady=10)
@@ -70,3 +105,5 @@ update_frame()
 root.mainloop()
 
 camera.release()
+
+
